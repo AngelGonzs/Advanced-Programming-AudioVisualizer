@@ -44,7 +44,7 @@ void ofApp::drawMode1(vector<float> amplitudes){
         ofFill(); // Drawn Shapes will be filled in with color
         ofSetColor(256); // This resets the color of the "brush" to white
         ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
-        ofDrawBitmapString(amplitudes[0], 10, 30);
+        // ofDrawBitmapString(amplitudes[0], 10, 30);
 
 
 
@@ -148,17 +148,24 @@ void ofApp::keyPressed(int key){
                 drawing = true;
             }
             break;
+        case '7':
+            sound.loadSound("beat.wav");
+            sound.play();
+            break;
+        case '8':
+            sound.loadSound("geesebeat.wav");
+            sound.play();
+            break;
+        case '9':
+            sound.loadSound("Play-em-like-atari.wav");
+            sound.play();
+            break;
+        case '0':
+            sound.loadSound("rock-song.wav");
+            sound.play();
+            break;
 
-        /*Tried adding a way to change the songs yet this method didn't 
-        seem to work accordingly, might need to add something else
-        nvm now it works
 
-        plan: create a new standalone method which contains:
-        loadSound() , play() and all other functions in case '5' 
-        that case is currently working just fine, the other ones
-        need to reset so that the song can be heard, since by
-        calling loadSound() it sets various attributes to default again
-        including the volume which sets to 0  */    
     }
 }
 
