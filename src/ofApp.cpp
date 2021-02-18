@@ -1,12 +1,11 @@
 #include "ofApp.h"
 #include <string>
-string song = "Play-em-like-atari.wav"; //demo song i added 
 float R = ofRandom(255);
 float G = ofRandom(255);
 float B = ofRandom(200);
 //--------------------------------------------------------------
 void ofApp::setup(){
-    sound.loadSound(song); //Loads a sound file (in bin/data/)
+    sound.loadSound("beat.wav"); //Loads a sound file (in bin/data/)
     sound.setLoop(true); // Makes the song loop indefinitely
     sound.setVolume(1); // Sets the song volume
     ofSetBackgroundColor(200, 50,10); // Sets the Background Color
@@ -17,7 +16,9 @@ void ofApp::update(){
     /* The update method is called muliple times per second
     It's in charge of updating variables and the logic of our app */
     ofSoundUpdate(); // Updates all sound players
-    visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
+    if (drawing){// Updates Amplitudes for visualizer
+        visualizer.updateAmplitudes();
+        } 
 }
 
 //--------------------------------------------------------------
@@ -139,32 +140,14 @@ void ofApp::keyPressed(int key){
         case '4':
             mode = '4';
             break;
-        
-
-        case '5':
-            song = "beat.wav";
-            sound.loadSound(song);
-            sound.play();
-            sound.setLoop(true); 
-            sound.setVolume(1); 
+        case 'a': 
+            if(drawing){
+                drawing = false;
+                
+            }else{
+                drawing = true;
+            }
             break;
-        case '6':
-            song = "geesebeat.wav";
-            break;
-        case '7':
-            song = "pigeon-coo.wav";
-            break;
-        case '8':
-            song = "rock-song.wav";
-            break;
-        case '9':
-            song = "Play-em-like-atari.wav";
-            sound.loadSound(song);
-            sound.play();
-            sound.setLoop(true); 
-            sound.setVolume(1); 
-            break;
-        
 
         /*Tried adding a way to change the songs yet this method didn't 
         seem to work accordingly, might need to add something else
