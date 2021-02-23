@@ -93,25 +93,27 @@ void ofApp::drawMode3(vector<float> amplitudes){
 void ofApp::drawMode4(vector<float> amplitudes){
     ofSetColor(256); // This resets the color of the "brush" to white
     ofDrawBitmapString("Custom Visualizer", 0, 15);
-    // YOUR CODE HERE
 
     ofFill();
     ofSetColor(0,0,0); //Sets color to black
 
     int counter = 0;
-    int counter2 = 64; //two counters to alter the X variable in ofDrawLine() method 
-    int half = ofGetHeight()/2; //Locates lines at half of screen :)
+    int counter2 = 16; //two counters to alter the X variable in ofDrawLine() method 
+    int half = ofGetHeight()/2; //Locates lines at half of screen :) in the y axis
+    int bands = amplitudes.size();
+    int adder = ofGetWidth()/amplitudes.size();
+
 
     //ofDrawLine uses (x1,y1) and (x2,y2) to draw lines between those 2 points
 
-    /*for loop creates 16 lines, each with a different amplitude thanks to 
+    /*for loop creates 64 lines, each with a different amplitude thanks to 
     amplitudes[] being a vector which is formed by many different amplitudes
     that are here being accessed with [i] and [i+1]*/
 
-    for(int i =0;i<16;i++){
+    for(int i =0; i<bands ;i++){
         ofDrawLine(counter, half+ amplitudes[i], counter2,half + amplitudes[i+1]);
-        counter += 64;
-        counter2 += 64;
+        counter += adder;
+        counter2 += adder;
     }
 }
 
