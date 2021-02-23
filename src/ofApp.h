@@ -31,4 +31,5 @@ class ofApp : public ofBaseApp{
 		bool playing = false;
 		bool drawing = true;
 		char mode = '1';
+		double vol = 1;
 };

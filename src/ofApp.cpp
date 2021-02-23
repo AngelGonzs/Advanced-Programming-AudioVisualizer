@@ -7,7 +7,7 @@ float B = ofRandom(200);
 void ofApp::setup(){
     sound.loadSound("beat.wav"); //Loads a sound file (in bin/data/)
     sound.setLoop(true); // Makes the song loop indefinitely
-    sound.setVolume(1); // Sets the song volume
+    sound.setVolume(vol); // Sets the song volume
     ofSetBackgroundColor(200, 50,10); // Sets the Background Color
 }
 
@@ -140,6 +140,8 @@ void ofApp::keyPressed(int key){
         case '4':
             mode = '4';
             break;
+
+
         case 'a': 
             if(drawing){
                 drawing = false;
@@ -148,6 +150,8 @@ void ofApp::keyPressed(int key){
                 drawing = true;
             }
             break;
+
+
         case '7':
             sound.loadSound("beat.wav");
             sound.play();
@@ -163,6 +167,23 @@ void ofApp::keyPressed(int key){
         case '0':
             sound.loadSound("rock-song.wav");
             sound.play();
+            break;
+
+
+        case '=':
+            if(vol<1){
+            vol += 0.1;
+            sound.setVolume(vol);
+            break;
+            }
+            break;
+
+        case '-':
+            if(vol>0){
+            vol -= 0.1;
+            sound.setVolume(vol);
+            break;
+            }
             break;
 
 
