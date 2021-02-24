@@ -12,6 +12,16 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
+void ofApp::songChanger(string song){
+    if(playing){
+    sound.loadSound(song);
+    sound.play();
+    sound.setLoop(true); 
+    }
+}
+
+
+//--------------------------------------------------------------
 void ofApp::update(){
     /* The update method is called muliple times per second
     It's in charge of updating variables and the logic of our app */
@@ -148,6 +158,7 @@ void ofApp::keyPressed(int key){
             if(drawing){
                 drawing = false;
                 
+                
             }else{
                 drawing = true;
             }
@@ -155,20 +166,16 @@ void ofApp::keyPressed(int key){
 
 
         case '7':
-            sound.loadSound("beat.wav");
-            sound.play();
+            songChanger("beat.wav");
             break;
         case '8':
-            sound.loadSound("geesebeat.wav");
-            sound.play();
+            songChanger("geesebeat.wav");
             break;
         case '9':
-            sound.loadSound("Play-em-like-atari.wav");
-            sound.play();
+            songChanger("Play-em-like-atari.wav");
             break;
         case '0':
-            sound.loadSound("rock-song.wav");
-            sound.play();
+            songChanger("rock-song.wav");
             break;
 
 

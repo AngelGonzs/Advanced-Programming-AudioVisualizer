@@ -9,6 +9,8 @@ class ofApp : public ofBaseApp{
 		void update();
 		void draw();
 
+		void songChanger(string song);
+
 		void drawMode1(vector<float> amplitudes);
 		void drawMode2(vector<float> amplitudes);
 		void drawMode3(vector<float> amplitudes);
