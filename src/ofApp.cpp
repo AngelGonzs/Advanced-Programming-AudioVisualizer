@@ -155,13 +155,7 @@ void ofApp::keyPressed(int key){
 
 
         case 'a': 
-            if(drawing){
-                drawing = false;
-                
-                
-            }else{
-                drawing = true;
-            }
+            drawing = !drawing;
             break;
 
 
