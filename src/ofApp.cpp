@@ -1,8 +1,15 @@
 #include "ofApp.h"
 #include <string>
+
+
 float R = ofRandom(255);
 float G = ofRandom(255);
 float B = ofRandom(200);
+
+string recorder = ""; //for recorder method
+bool record = false; //also for recorder method
+
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     sound.loadSound("beat.wav"); //Loads a sound file (in bin/data/)
@@ -121,9 +128,14 @@ void ofApp::drawMode4(vector<float> amplitudes){
     that are here being accessed with [i] and [i+1]*/
 
     for(int i =0; i<bands ;i++){
+        if(i==64){
+            ofDrawLine(counter, half + amplitudes[i], counter2, half);
+        }
+        else{
         ofDrawLine(counter, half+ amplitudes[i], counter2,half + amplitudes[i+1]);
         counter += adder;
         counter2 += adder;
+        }
     }
 }
 
@@ -131,6 +143,10 @@ void ofApp::drawMode4(vector<float> amplitudes){
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     // This method is called automatically when any key is pressed
+    if (record){
+        recorder += key;
+    }
+
     switch(key){
         case 'p':
             if(playing){
@@ -152,12 +168,7 @@ void ofApp::keyPressed(int key){
         case '4':
             mode = '4';
             break;
-
-
-        case 'a': 
-            drawing = !drawing;
-            break;
-
+        
 
         case '7':
             songChanger("beat.wav");
@@ -171,25 +182,39 @@ void ofApp::keyPressed(int key){
         case '0':
             songChanger("rock-song.wav");
             break;
-
+        
+        case 'a':
+            drawing = !drawing;
+            break;
 
         case '=':
             if(vol<1){
-            vol += 0.1;
-            sound.setVolume(vol);
-            break;
+                vol += 0.1;
+                sound.setVolume(vol);
+                break;
             }
             break;
-
         case '-':
-            if(vol>0){
-            vol -= 0.1;
-            sound.setVolume(vol);
-            break;
+            if(vol>=0){
+                vol -= 0.1;
+                sound.setVolume(vol);
+                break;
             }
             break;
 
 
+
+        case 'r':
+            recorder.clear();
+            record = true;
+            break;
+
+
+        case 't':
+            break;
+            
+        
+ 
     }
 }
 
