@@ -1,8 +1,5 @@
 #include "ofApp.h"
 #include <string>
-float R = ofRandom(255);
-float G = ofRandom(255);
-float B = ofRandom(200);
 //--------------------------------------------------------------
 void ofApp::setup(){
     sound.loadSound("beat.wav"); //Loads a sound file (in bin/data/)
@@ -42,13 +39,15 @@ void ofApp::draw(){
 }
 void ofApp::drawMode1(vector<float> amplitudes){
         ofFill(); // Drawn Shapes will be filled in with color
-        ofSetColor(256); // This resets the color of the "brush" to white
+        // ofSetColor(256); // This resets the color of the "brush" to white
+        ofSetColor(R, G, B); 
+        ofSetBackgroundColor(200, 50,10); // Sets the Background Color
+
         ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
         // ofDrawBitmapString(amplitudes[0], 10, 30);
 
 
 
-        ofSetColor(R, G, B); //Changed color so that the rectangles can look different
         int total = 0;
         int bands = amplitudes.size();
         for(int i=0; i<bands;i++){
@@ -60,7 +59,8 @@ void ofApp::drawMode1(vector<float> amplitudes){
 void ofApp::drawMode2(vector<float> amplitudes){
         ofSetLineWidth(5); // Sets the line width
         ofNoFill(); // Only the outline of shapes will be drawn
-        ofSetColor(256); // This resets the color of the "brush" to white
+        ofSetColor(0); // This resets the color of the "brush" to white
+        ofSetBackgroundColor(255, 255, 102); // Sets the Background Color
 
 
         ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
@@ -73,9 +73,11 @@ void ofApp::drawMode2(vector<float> amplitudes){
 
 void ofApp::drawMode3(vector<float> amplitudes){
     ofFill();
-    ofSetColor(256); // This resets the color of the "brush" to white
+    ofSetColor(R, G, B); 
+    ofSetBackgroundColor(255, 153, 51); // Sets the Background Color to oranges 
+
+
     ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
-    ofSetColor(B,G,R);
 
 
     int total = 0;
@@ -91,12 +93,12 @@ void ofApp::drawMode3(vector<float> amplitudes){
     
 }
 void ofApp::drawMode4(vector<float> amplitudes){
-    ofSetColor(256); // This resets the color of the "brush" to white
+    // ofSetColor(256); // This resets the color of the "brush" to white
     ofDrawBitmapString("Custom Visualizer", 0, 15);
-    // YOUR CODE HERE
+    ofSetBackgroundColor(255, 153, 153); // Sets the Background Color
 
     ofFill();
-    ofSetColor(0,0,0); //Sets color to black
+    ofSetColor(0); //Sets color to black
 
     int counter = 0;
     int counter2 = 64; //two counters to alter the X variable in ofDrawLine() method 
@@ -129,15 +131,25 @@ void ofApp::keyPressed(int key){
             playing = !playing;
             break;
         case '1':
+            R = ofRandom(256);
+            G = ofRandom(256);
+            B = ofRandom(256);
+            ofSetColor(R,G,B); //Changed color so that the rectangles can look different
             mode = '1';
             break;
         case '2':
             mode = '2';
             break;
         case '3':
+            R = ofRandom(256);
+            G = ofRandom(256);
+            B = ofRandom(256);
+            ofSetColor(R,G,B); //Changed color so that the rectangles can look different
             mode = '3';
             break;
         case '4':
+            // ofSetColor( ofRandom(256), ofRandom(256), ofRandom(256));
+            ofSetColor(R, G, B);
             mode = '4';
             break;
         case 'a': 

@@ -8,6 +8,11 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+		int R = ofRandom(256);
+		int G = ofRandom(256);
+		int B = ofRandom(256);
+
+
 
 		void drawMode1(vector<float> amplitudes);
 		void drawMode2(vector<float> amplitudes);
