@@ -46,6 +46,14 @@ void ofApp::draw(){
         ofSetColor(256); //so that the text can be white
         ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth()/2 - 50, ofGetHeight()/2);
     }
+
+    if(record){ 
+    ofSetColor(256);
+    ofDrawBitmapString("You are currently recording", 0, 100); //to let user know he's recording
+    ofDrawBitmapString("Press 'r' to reset recording", 0, 115);
+    ofDrawBitmapString(recorder, 0, 130);} //to let user know he's recording
+
+
     vector<float> amplitudes = visualizer.getAmplitudes();
     if(mode == '1'){
         drawMode1(amplitudes);
@@ -145,8 +153,26 @@ void ofApp::keyPressed(int key){
     // This method is called automatically when any key is pressed
     if (record){
         recorder += key;
-    }
+        
+        switch(key){
+        
+            case 'r':
+            recorder.clear();
+            record = true;
+            break;
 
+
+            case 't':
+            
+            record = false;
+            // for(int i; i < recorder.size(); i++){
+            //     key = recorder[i];
+            // }
+            break;
+
+        }
+    }
+    else{
     switch(key){
         case 'p':
             if(playing){
@@ -208,14 +234,10 @@ void ofApp::keyPressed(int key){
             recorder.clear();
             record = true;
             break;
-
-
-        case 't':
-            break;
             
         
- 
-    }
+    }   //switch cases end here
+    }   //ends the else for record method
 }
 
 
