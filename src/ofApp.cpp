@@ -2,10 +2,6 @@
 #include <string>
 
 
-float R = ofRandom(255);
-float G = ofRandom(255);
-float B = ofRandom(200);
-
 string recorder = ""; //for recorder method
 bool record = false; //also for recorder method
 
@@ -124,7 +120,7 @@ void ofApp::drawMode4(vector<float> amplitudes){
 
     int counter = 0;
     int counter2 = 16; //two counters to alter the X variable in ofDrawLine() method 
-    int half = ofGetHeight()/2; //Locates lines at half of screen :) in the y axis
+    int twoThrds = (ofGetHeight()/3)*2; //Locates lines at half of screen :) in the y axis
     int bands = amplitudes.size();
     int adder = ofGetWidth()/amplitudes.size();
 
@@ -136,16 +132,14 @@ void ofApp::drawMode4(vector<float> amplitudes){
     that are here being accessed with [i] and [i+1]*/
 
     for(int i =0; i<bands ;i++){
-        if(i==64){
-            ofDrawLine(counter, half + amplitudes[i], counter2, half);
+        for (int j = 0; j < ofGetHeight(); j+= 5){
+            ofDrawLine(counter, (twoThrds + j)+ amplitudes[i], counter2,(twoThrds + j) + amplitudes[i+1]);
         }
-        else{
-        ofDrawLine(counter, half+ amplitudes[i], counter2,half + amplitudes[i+1]);
         counter += adder;
         counter2 += adder;
-        }
     }
 }
+
 
 
 //--------------------------------------------------------------
