@@ -2,10 +2,6 @@
 #include <string>
 
 
-float R = ofRandom(255);
-float G = ofRandom(255);
-float B = ofRandom(200);
-
 string recorder = ""; //for recorder method
 bool record = false; //also for recorder method
 
@@ -66,6 +62,7 @@ void ofApp::drawMode1(vector<float> amplitudes){
 
 
         ofSetColor(R, G, B); //Changed color so that the rectangles can look different
+        ofSetBackgroundColor(200,50,10);
         int total = 0;
         int bands = amplitudes.size();
         for(int i=0; i<bands;i++){
@@ -77,7 +74,8 @@ void ofApp::drawMode1(vector<float> amplitudes){
 void ofApp::drawMode2(vector<float> amplitudes){
         ofSetLineWidth(5); // Sets the line width
         ofNoFill(); // Only the outline of shapes will be drawn
-        ofSetColor(256); // This resets the color of the "brush" to white
+        ofSetColor(0); // This resets the color of the "brush" to black
+        ofSetBackgroundColor(255, 255, 102);
 
 
         ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
@@ -91,6 +89,7 @@ void ofApp::drawMode2(vector<float> amplitudes){
 void ofApp::drawMode3(vector<float> amplitudes){
     ofFill();
     ofSetColor(256); // This resets the color of the "brush" to white
+    ofSetBackgroundColor(255, 153, 51);
     ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
     ofSetColor(B,G,R);
 
@@ -109,15 +108,23 @@ void ofApp::drawMode3(vector<float> amplitudes){
 }
 void ofApp::drawMode4(vector<float> amplitudes){
     ofSetColor(256); // This resets the color of the "brush" to white
+    ofSetBackgroundColor(152,253,255);
     ofDrawBitmapString("Custom Visualizer", 0, 15);
 
+    int bands = amplitudes.size();
     ofFill();
-    ofSetColor(0,0,0); //Sets color to black
+    ofSetColor(255, 255, 102);
+    for(int i=0; i < bands; i++){
+        ofDrawCircle(ofGetWidth(), 0, -(amplitudes[i] * 0.5));
+    }
+
+    ofFill();
+    ofSetColor(0,128,255); //Sets color to blue
+
 
     int counter = 0;
     int counter2 = 16; //two counters to alter the X variable in ofDrawLine() method 
     int half = ofGetHeight()/2; //Locates lines at half of screen :) in the y axis
-    int bands = amplitudes.size();
     int adder = ofGetWidth()/amplitudes.size();
 
 
@@ -128,16 +135,14 @@ void ofApp::drawMode4(vector<float> amplitudes){
     that are here being accessed with [i] and [i+1]*/
 
     for(int i =0; i<bands ;i++){
-        if(i==64){
-            ofDrawLine(counter, half + amplitudes[i], counter2, half);
+        for (int j = 0; j < ofGetHeight(); j+= 5){
+            ofDrawLine(counter, (half + j)+ amplitudes[i], counter2,(half + j) + amplitudes[i+1]);
         }
-        else{
-        ofDrawLine(counter, half+ amplitudes[i], counter2,half + amplitudes[i+1]);
         counter += adder;
         counter2 += adder;
-        }
     }
 }
+
 
 
 //--------------------------------------------------------------
@@ -157,12 +162,19 @@ void ofApp::keyPressed(int key){
             playing = !playing;
             break;
         case '1':
-            mode = '1';
+            R = ofRandom(256);
+            G = ofRandom(256);
+            B = ofRandom(256);
+            ofSetColor(R,G,B);            mode = '1';
             break;
         case '2':
             mode = '2';
             break;
         case '3':
+            R = ofRandom(256);
+            G = ofRandom(256);
+            B = ofRandom(256);
+            ofSetColor(R,G,B);
             mode = '3';
             break;
         case '4':
