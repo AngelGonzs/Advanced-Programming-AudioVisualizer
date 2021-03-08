@@ -79,7 +79,7 @@ void ofApp::draw(){
 
     if(looping){ 
         ofSetColor(256);
-        ofDrawBitmapString("You are currently loopin!", ofGetWidth()/2, ofGetHeight()/2);}
+        ofDrawBitmapString("You are currently loopin!", 0, 100);}
 
     if(record && !looping){ 
     ofSetColor(256);
