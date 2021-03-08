@@ -222,9 +222,9 @@ void ofApp::drawMode4(vector<float> amplitudes){
     if(moveP <= 0) { index = 1; }
 
     ofSetColor(255,208,14);
-    ofDrawRectangle(45, 690 - 670, amplitudes[4] * -1.8, 35);
+    ofDrawRectangle(45, 30, amplitudes[4] * -1.8, 35);
     ofSetColor(255);
-    energy.draw(10, ofGetHeight() - 760);
+    energy.draw(10, 20);
 
 
 }
