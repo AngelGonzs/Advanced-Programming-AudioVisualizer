@@ -39,4 +39,24 @@ class ofApp : public ofBaseApp{
 		bool drawing = true;
 		char mode = '1';
 		double vol = 1;
+	
+	bool lock = false;
+	bool looping = false;
+	float startTime;
+
+	//Images:
+	ofImage cloud;
+	ofImage pikachu;
+	ofImage background;
+	ofImage energy;
+
+	//Cloud movers:
+	float move1 = 0;
+	float move2 = - 500;
+	float move3 = - 900;
+
+	//Pikachu mover:
+	float moveP = 0;
+	int index = 1;
+
 };

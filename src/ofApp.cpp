@@ -2,6 +2,9 @@
 #include <string>
 
 
+int counter = 0;
+float timer;
+string validInput = "p12347890a=-";
 string recorder = ""; //for recorder method
 bool record = false; //also for recorder method
 
@@ -12,6 +15,10 @@ void ofApp::setup(){
     sound.setLoop(true); // Makes the song loop indefinitely
     sound.setVolume(vol); // Sets the song volume
     ofSetBackgroundColor(200, 50,10); // Sets the Background Color
+
+    pikachu.load("pikachu.png");
+    cloud.load("8bitCloud.png");
+    energy.load("EnergyBar.png");
 }
 
 //--------------------------------------------------------------
@@ -32,16 +39,55 @@ void ofApp::update(){
     if (drawing){// Updates Amplitudes for visualizer
         visualizer.updateAmplitudes();
         } 
-}
 
+    if(looping){
+    
+    timer = ofGetElapsedTimeMillis() - startTime;
+
+    lock = true;
+    record = false;
+
+        for(int i; i < recorder.size(); i++){
+
+
+            if(timer >= 5000*i && timer < 5000*(i+1) && counter == i)
+            {
+            char passer = recorder[i];
+            lock = false;
+            keyPressed(passer);
+            lock = true;
+            counter += 1;
+            }
+    }
+    if(counter >= recorder.size()){
+        looping = false;
+        lock = false;
+        counter =0;
+    }
+
+
+    }
+}
 //--------------------------------------------------------------
 void ofApp::draw(){
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
     if(!playing){
-        ofSetColor(256); //so that the text can be white
+        ofSetColor(256); 
         ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth()/2 - 50, ofGetHeight()/2);
     }
+
+    if(looping){ 
+        ofSetColor(256);
+        ofDrawBitmapString("You are currently loopin!", ofGetWidth()/2, ofGetHeight()/2);}
+
+    if(record && !looping){ 
+    ofSetColor(256);
+    ofDrawBitmapString("You are currently recording", 0, 100); //to let user know they're recording
+    ofDrawBitmapString("Press 'r' to reset recording", 0, 115);
+    ofDrawBitmapString(recorder, 0, 130);} //to let user know what they've typed
+
+
     vector<float> amplitudes = visualizer.getAmplitudes();
     if(mode == '1'){
         drawMode1(amplitudes);
@@ -109,7 +155,7 @@ void ofApp::drawMode3(vector<float> amplitudes){
 void ofApp::drawMode4(vector<float> amplitudes){
     ofSetColor(256); // This resets the color of the "brush" to white
     ofSetBackgroundColor(152,253,255);
-    ofDrawBitmapString("Custom Visualizer", 0, 15);
+    ofSetLineWidth(1);
 
     int bands = amplitudes.size();
     ofFill();
@@ -124,7 +170,7 @@ void ofApp::drawMode4(vector<float> amplitudes){
 
     int counter = 0;
     int counter2 = 16; //two counters to alter the X variable in ofDrawLine() method 
-    int half = ofGetHeight()/2; //Locates lines at half of screen :) in the y axis
+    int half = ofGetHeight()/2 + 100; //Locates lines at half of screen :) in the y axis
     int adder = ofGetWidth()/amplitudes.size();
 
 
@@ -134,13 +180,53 @@ void ofApp::drawMode4(vector<float> amplitudes){
     amplitudes[] being a vector which is formed by many different amplitudes
     that are here being accessed with [i] and [i+1]*/
 
-    for(int i =0; i<bands ;i++){
-        for (int j = 0; j < ofGetHeight(); j+= 5){
+
+
+    for(int i =0; i<bands-1 ;i++){
+        for (int j = 0; j < ofGetHeight()/2 + 50; j+= 5){
             ofDrawLine(counter, (half + j)+ amplitudes[i], counter2,(half + j) + amplitudes[i+1]);
+            ofDrawLine(1008, half + j + amplitudes[63], 1028, half + j);
+
         }
         counter += adder;
         counter2 += adder;
     }
+
+    //Images and their trackers:
+    pikachu.resize(150,155);
+    cloud.resize(200,100);
+    energy.resize(230, 70);
+
+
+    ofSetColor(255);
+    cloud.draw(ofGetWidth() -10 - move1 - cloud.getWidth() , 100 - amplitudes[1] * 0.2);
+    move1 += 8 - amplitudes[1] * 0.1;
+    if(move1 >= 1000){ move1 = -200; }
+
+    //Cloud #2
+    cloud.draw(ofGetWidth() -10 - move2 - cloud.getWidth() , 10 - amplitudes[1] * 0.2);
+    move2 += 8 - amplitudes[2] *0.2;
+    if(move2 >= 1000){ move2 = -200; }
+
+    //Cloud #3 
+    cloud.draw(ofGetWidth() -10 - move3 - cloud.getWidth() , 150 - amplitudes[1] * 0.2);
+    move3 += 8 - amplitudes[3] * 0.25;
+    if(move3 >= 1000){ move3 = -200; }
+    /*Dios perdoname por repetir codigo pero las funciones se complicaban cuando
+    se implementaba una variable de movimiento -Angel
+    (tambien habia que pasar muchas variables, eso es mucho trabajo)*/
+
+    pikachu.draw( 100 + moveP, ofGetHeight() - 200 - amplitudes[4]*0.2);
+    moveP += (0.5 * index) + (ofRandom(-1,1) * amplitudes[5] * 0.25);
+    if(moveP >= 50){ index = -1 ;}
+    if(moveP <= 0) { index = 1; }
+
+    ofSetColor(255,208,14);
+    ofDrawRectangle(45, 690 - 670, amplitudes[4] * -1.8, 35);
+    ofSetColor(255);
+    energy.draw(10, ofGetHeight() - 760);
+
+
 }
 
 
@@ -149,9 +235,31 @@ void ofApp::drawMode4(vector<float> amplitudes){
 void ofApp::keyPressed(int key){
     // This method is called automatically when any key is pressed
     if (record){
-        recorder += key;
-    }
 
+        char checker = key;
+
+        if(validInput.find(checker) != string::npos){ //checks if input is valid
+
+
+        recorder += key;
+        }
+
+        switch(key){
+        
+            case 'r':
+            recorder.clear();
+            record = true;
+            break;
+
+
+            case 't':
+            startTime = ofGetElapsedTimeMillis(); 
+            looping = true;
+            break;
+
+        }
+    }
+    else if(!lock){
     switch(key){
         case 'p':
             if(playing){
@@ -165,11 +273,14 @@ void ofApp::keyPressed(int key){
             R = ofRandom(256);
             G = ofRandom(256);
             B = ofRandom(256);
-            ofSetColor(R,G,B);            mode = '1';
+            ofSetColor(R,G,B);            
+            mode = '1';
             break;
+
         case '2':
             mode = '2';
             break;
+
         case '3':
             R = ofRandom(256);
             G = ofRandom(256);
@@ -177,6 +288,7 @@ void ofApp::keyPressed(int key){
             ofSetColor(R,G,B);
             mode = '3';
             break;
+
         case '4':
             mode = '4';
             break;
@@ -219,14 +331,9 @@ void ofApp::keyPressed(int key){
         case 'r':
             recorder.clear();
             record = true;
-            break;
-
-
-        case 't':
-            break;
-            
+            break;            
         
- 
+    }
     }
 }
 
